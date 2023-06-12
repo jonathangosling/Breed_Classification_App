@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.10
 COPY ./requirements.txt    /requirements.txt
 COPY ./main.py     /main.py
-COPY ./html_files /html_files
+COPY ./templates /templates
 COPY ./breeds_ML /breeds_ML
 COPY ./20220815-18301660588220_trained_on_80percent.h5 /20220815-18301660588220_trained_on_80percent.h5
 COPY ./unique_labels.csv /unique_labels.csv
