@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="/workspace/templates")
 def get_basic_form(request: Request):
     return templates.TemplateResponse("basic_form.html",
                                       {"request": request,
-                                       "message": "Submit a .jpg or .png image to get a prediction."})
+                                       "message": "Submit a .jpg, .jpeg or .png image to get a prediction."})
 
 
 @app.post('/breed-classifier', response_class=HTMLResponse)
@@ -41,7 +41,7 @@ async def get_basic_form_resp(request: Request, file: UploadFile = File(...)):
                                 np.max(prediction)*100)
     else:
         output_message = '''Sorry I can't process that,
-         the file must be an image of type jpg or png.'''
+         the file must be an image of type jpg, jpeg or png.'''
     return templates.TemplateResponse("basic_form.html",
                                       {"request": request,
                                        "message": output_message})
