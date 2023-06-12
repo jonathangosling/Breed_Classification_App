@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Breed Predictor</title>
+    </head>
+    <body>
+        <h1>Dog and Cat Breed Predictor</h1>
+        <p>{{ message }}</p>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file"><br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <p>
+            This model was trained using the data from the 
+            <a href="https://dockship.io/challenges/5fdcba715f392d4d66289d43/animal-breed-classification-ai-challenge/overview">Dockship 'Animal Breed Classification AI Challenge'</a>
+            <br>
+            The data is limited in scope and so the model is only able to make predictions on the following breeds:
+        </p>
+        <div style="overflow:auto;">
+            <ul style="width:20%; float:left;">
+                <h2>Dogs</h2>
+                <li>American Bulldog</li>
+                <li>American Pit Bull Terrier</li>
+                <li>Basset Hound</li>
+                <li>Beagle</li>
+                <li>Boxer</li>
+                <li>Chihuahua</li>
+                <li>English Cocker Spaniel</li>
+                <li>English Setter</li>
+                <li>German Shorthaired</li>
+                <li>Great Pyrenees</li>
+                <li>Havanese</li>
+                <li>Japanese Chin</li>
+                <li>Keeshond</li>
+                <li>Leonberger</li>
+                <li>Miniature Pinscher</li>
+                <li>Newfoundland</li>
+                <li>Pomeranian</li>
+                <li>Saint Bernard</li>
+                <li>Samoyed</li>
+                <li>Scottish Terrier</li>
+                <li>Shiba Inu</li>
+                <li>Staffordshire Bull Terrier</li>
+                <li>Wheaten Terrier</li>
+                <li>Yorkshire Terrier</li>
+            </ul>
+            <ul style="width:20%; float:left;">
+                <h2>Cats</h2>
+                <li>Abyssinian</li>
+                <li>Bengal</li>
+                <li>Birman</li>
+                <li>Bombay</li>
+                <li>British Shorthair</li>
+                <li>Egyptian Mau</li>
+                <li>Maine Coon</li>
+                <li>Persian</li>
+                <li>Ragdoll</li>
+                <li>Russian Blue</li>
+                <li>Siamese</li>
+                <li>Sphynx</li> 
+            </ul>
+        </div>
+        <p>
+            Note: The confidence is calculated as the predicted probability of the breed being 
+            as estimated, relative to all of the other breeds contained within the model.
+        </p>
+    </body>
+</html>
