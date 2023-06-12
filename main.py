@@ -5,8 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import numpy as np
 from mangum import Mangum
-
-from tensorflow.image import decode_jpeg, convert_image_dtype, resize
+import tensorflow as tf
 # imports for the classifcation model loading, fitting, transforming
 # from model import *
 # from transformations import *
