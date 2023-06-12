@@ -4,7 +4,7 @@ WORKDIR /
 
 COPY main.py ${LAMBDA_TASK_ROOT}
 COPY requirements.txt .
-RUN pip install -r /code/requirements.txt --target  "${LAMBDA_TASK_ROOT}"
+RUN pip install -r /requirements.txt --target  "${LAMBDA_TASK_ROOT}"
 
 COPY templates .
 COPY model.py ${LAMBDA_TASK_ROOT}
