@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 517574620103.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on 'date'
+      - echo Building and pushing the Docker image...
+      - docker build -t breed_classifier_ecr .
+      - docker tag breed_classifier_ecr:latest 517574620103.dkr.ecr.us-east-1.amazonaws.com/breed_classifier_ecr:latest
+      - docker push 517574620103.dkr.ecr.us-east-1.amazonaws.com/breed_classifier_ecr:latest
+  post_build:
+    commands:
+      - echo Build completed and image pushed to ECR on 'date'
+      - echo Updating lambda...
+      - aws lambda update-function-code --function-name Breed_classifier --image-uri 517574620103.dkr.ecr.us-east-1.amazonaws.com/breed_classifier_ecr:latest
+      - echo Complete!
