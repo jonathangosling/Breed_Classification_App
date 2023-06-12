@@ -10,4 +10,4 @@ COPY ./templates /code/templates
 COPY ./breeds_ML /code/breeds_ML
 COPY ./20220815-18301660588220_trained_on_80percent.h5 /code/20220815-18301660588220_trained_on_80percent.h5
 COPY ./unique_labels.csv /code/unique_labels.csv
-CMD ["/main.handler"]
+CMD ["/code/main.handler"]
