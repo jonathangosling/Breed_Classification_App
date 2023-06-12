@@ -1,7 +1,7 @@
 # Breed_Classification_App
 This is the repo for my FastAPI app using a trained image classification model to provide estimations of the breed of various dogs and cats.
 
-# Contents:
+## Contents:
 The repo contains:
 - main.py: the main python script hosting the FastAPI app. Using Mangum for deployment on AWS Lambda.
 - breeds_ML: A directory acting as a python package with all of the necessary functionality to transform an image in the form required by the model and then use the model to make predictions.
