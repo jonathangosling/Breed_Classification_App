@@ -1,5 +1,6 @@
-from tensorflow.image import decode_jpeg, convert_image, resize
-from tensorflow.data.Dataset import from_tensor_slices
+# from tensorflow.image import decode_jpeg, convert_image_dtype, resize
+# import tensorflow.data as td
+#.Dataset import from_tensor_slices
 
 # # Define image size
 # # Ensure image size is of the correct size for the model
