@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/python:3.8
+FROM public.ecr.aws/lambda/python:3.10
 COPY ./requirements.txt    /requirements.txt
 COPY ./main.py     /main.py
 COPY ./html_files /html_files
