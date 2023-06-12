@@ -25,7 +25,7 @@ def get_basic_form(request: Request):
 @app.post('/breed-classifier', response_class=HTMLResponse)
 async def get_basic_form_resp(request: Request, file: UploadFile = File(...)):
     content = await file.read()
-    if file.filename[-4:] == '.png' or file.filename[-4:] == '.jpg':
+    if file.filename[-4:] == '.png' or file.filename[-4:] == '.jpg' or file.filename[-5:] == '.jpeg':
         # load the trained image classification model
         model = bm.load_our_model(r'/workspace/20220815-18301660588220_trained_on_80percent.h5')
         # transform the image data to the same, batched type as trained
@@ -36,7 +36,7 @@ async def get_basic_form_resp(request: Request, file: UploadFile = File(...)):
         unique_labels = bm.get_unique_labels()
         label = bm.get_pred_label(prediction, unique_labels)
         output_message = '''The model predicts that the species of the
-         animal in the image that you submitted is {} with a confindence
+         animal in the image that you submitted is {} with a confidence
          of {:2.0f}%.'''.format(label.replace("_", " ").title(),
                                 np.max(prediction)*100)
     else:
