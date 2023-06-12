@@ -7,7 +7,8 @@ RUN pip install -r /code/requirements.txt
 
 COPY ./main.py     /code/main.py
 COPY ./templates /code/templates
-COPY ./breeds_ML /code/breeds_ML
+COPY ./model.py /code/model.py
+COPY ./transformations.py /code/transformations.py
 COPY ./20220815-18301660588220_trained_on_80percent.h5 /code/20220815-18301660588220_trained_on_80percent.h5
 COPY ./unique_labels.csv /code/unique_labels.csv
 CMD ["/code/main.handler"]
