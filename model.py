@@ -1,15 +1,13 @@
-# import tensorflow as tf
-# import tensorflow as tf
-# from tensorflow_hub import KerasLayer
-# import csv
-# import numpy as np
+import tensorflow as tf
+from tensorflow_hub import KerasLayer
+import csv
+import numpy as np
 
 
 # def load_our_model(model_path):
 #     """
 #     Loads model from input path
 #     """
-#     print(f"Loading saved model from: {model_path}...")
 #     # "custom_objects" used to tell Keras that there
 #     # is an additional (custom) layer (from training)
 #     model = tf.keras.models.load_model(model_path,

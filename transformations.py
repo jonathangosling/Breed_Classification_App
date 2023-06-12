@@ -1,4 +1,4 @@
-# import tensorflow as tf
+import tensorflow as tf
 
 # # Define image size
 # # Ensure image size is of the correct size for the model
@@ -27,7 +27,6 @@
 #     Shuffles data if training data but not if validation data.labels.
 #     Accepts data with no labels (test_data).
 #     """
-#     print("Creating data batches...")
 #     # Create Dataset
 #     data = tf.data.Dataset.from_tensor_slices(X)
 #     # Turn Dataset into batches

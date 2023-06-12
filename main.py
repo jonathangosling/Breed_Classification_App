@@ -12,7 +12,7 @@ from transformations import *
 app = FastAPI()
 handler = Mangum(app) # handler for running on AWS Lambda
 
-templates = Jinja2Templates(directory="/templates")
+templates = Jinja2Templates(directory="/workspace/templates")
 
 
 @app.get('/breed-classifier', response_class=HTMLResponse)
