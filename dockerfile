@@ -1,14 +1,12 @@
 FROM public.ecr.aws/lambda/python:3.8
 
-WORKDIR /
+COPY ./main.py /main.py
+COPY ./requirements.txt /requirements.txt
+COPY ./templates /templates
+COPY ./model.py /model.py
+COPY ./transformations.py /transformations.py
+COPY ./20220815-18301660588220_trained_on_80percent.h5 /20220815-18301660588220_trained_on_80percent.h5
+COPY ./unique_labels.csv /unique_labels.csv
 
-COPY main.py ${LAMBDA_TASK_ROOT}
-COPY requirements.txt .
-RUN pip install -r /requirements.txt --target  "${LAMBDA_TASK_ROOT}"
-
-COPY templates .
-COPY model.py ${LAMBDA_TASK_ROOT}
-COPY transformations.py ${LAMBDA_TASK_ROOT}
-COPY 20220815-18301660588220_trained_on_80percent.h5 .
-COPY unique_labels.csv .
+RUN pip install -r /requirements.txt
 CMD ["/main.handler"]

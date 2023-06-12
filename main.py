@@ -4,8 +4,8 @@ from fastapi.templating import Jinja2Templates
 import numpy as np
 from mangum import Mangum
 # imports for the classifcation model loading, fitting, transforming
-import model as bm
-import transformations as bt
+from model import *
+from transformations import *
 
 
 app = FastAPI()
