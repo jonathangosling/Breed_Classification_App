@@ -1,3 +1,5 @@
+import sys
+sys.path.append('/')
 from fastapi import FastAPI, Request, UploadFile, File
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -6,8 +8,6 @@ from mangum import Mangum
 # imports for the classifcation model loading, fitting, transforming
 from model import *
 from transformations import *
-import sys
-sys.path.append('/')
 
 app = FastAPI()
 handler = Mangum(app) # handler for running on AWS Lambda
