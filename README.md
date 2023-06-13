@@ -12,19 +12,23 @@ The repo contains:
 - Dockerfile, requirments.txt, buildspec.yaml for deployment.
   
 ## Notes:
-- Things can get a little tricky when importing custom packages in AWS lambda. It appears that the current working directory when the lambda function executes the application file (`main.py`) is not necessarily the same directory as the application file itself, meaning it is unable to find the custom packages.
-  - I think there could be a number of solutions to this. Here's what I did:
-    1. Create a new directory (`workspace`) in the dockerfile and COPY all files into this directory.
-    2. In the application file (`main.py`) append the directory (`sys.path.append('/workspace')`). Note: we added all of our files to this new directory so that we can just append that, rather than appending the route (`/`) which contains everything, limiting the amount that the interpreter has to search.
-  - Another solution could be to change the current working directory from the python script using `os.chdir()`
-  - I also found [this blog post](https://xebia.com/blog/python-and-relative-imports-in-aws-lambda-functions/) discussing using relative imports for python in AWS Lambda functions, where they take yet a different approach.
-  - I haven't properly tested this yet, but checking [the AWS developer guide post](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html). I can see a potential solution which may be best:
-    - The AWS base images (i.e. `public.ecr.aws/lambda/python:3.8` in this case) actually provides environment variables `LAMBDA_TASK_ROOT` and `LAMBDA_RUNTIME_DIR` which are assigned values pointing to task and runtime directories. The AWS documentation actually suggests installing dependencies to the directory found using the variable `LAMBDA_TASK_ROOT` "alongside the function handler to ensure that the Lambda runtime can locate them when the function is invoked."
-    - In the dockerfile:
-       1. `RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"`
-       2. `COPY app.py ${LAMBDA_TASK_ROOT}`
-       3. Also copy all other (custom) dependencies to ${LAMBDA_TASK_ROOT}
-- The default memory and timeout configurations on AWS lambda can cause issues when importing large packages like tensorflow. This can be solved by:
-  - First: make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
-  - Second: increase the timeout in the AWS lambda configuration to an reasonable amount.
-  - Finally: if it's taking longer than you would like, you can increase the speed of imports by increasing the CPU provisioned. This can be altered in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
+### Custom packages and relative paths
+Things can get a little tricky when importing custom packages in AWS lambda. It appears that the current working directory when the lambda function executes the application file (`main.py`) is not necessarily the same directory as the application file itself, meaning it is unable to find the custom packages.
+- I think there could be a number of solutions to this. Here's what I did:
+  1. Create a new directory (`workspace`) in the dockerfile and COPY all files into this directory.
+  2. In the application file (`main.py`) append the directory (`sys.path.append('/workspace')`). Note: we added all of our files to this new directory so that we can just append that, rather than appending the route (`/`) which contains everything, limiting the amount that the interpreter has to search.
+- Another solution could be to change the current working directory from the python script using `os.chdir()`
+- I also found [this blog post](https://xebia.com/blog/python-and-relative-imports-in-aws-lambda-functions/) discussing using relative imports for python in AWS Lambda functions, where they take yet a different approach.
+- I haven't properly tested this yet, but checking [the AWS developer guide post](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html). I can see a potential solution which may be best:
+  - The AWS base images (i.e. `public.ecr.aws/lambda/python:3.8` in this case) actually provides environment variables `LAMBDA_TASK_ROOT` and `LAMBDA_RUNTIME_DIR` which are assigned values pointing to task and runtime directories. The AWS documentation actually suggests installing dependencies to the directory found using the variable `LAMBDA_TASK_ROOT` "alongside the function handler to ensure that the Lambda runtime can locate them when the function is invoked."
+  - In the dockerfile:
+     1. `RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"`
+     2. `COPY app.py ${LAMBDA_TASK_ROOT}`
+     3. Also copy all other (custom) dependencies to ${LAMBDA_TASK_ROOT}
+### Memory considerations for execution time
+The default memory and timeout configurations on AWS lambda can cause issues when importing large packages like tensorflow. This can be solved by:
+- First: make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
+- Second: increase the timeout in the AWS lambda configuration to an reasonable amount.
+- Finally: if it's taking longer than you would like, you can increase the speed of imports by increasing the CPU provisioned. This can be altered in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
+Of course, as we're using serverless lambda, the time is increased for any 'cold starts'. See more [here](https://lumigo.io/blog/3-major-ways-to-improve-aws-lambda-performance/).
+  
