@@ -24,3 +24,7 @@ The repo contains:
        1. `RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"`
        2. `COPY app.py ${LAMBDA_TASK_ROOT}`
        3. Also copy all other (custom) dependencies to ${LAMBDA_TASK_ROOT}
+- The default memory and timeout configurations on AWS lambda can cause issues when importing large packages like tensorflow. This can be solved by:
+  - First make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
+  - Second increase the timeout in the AWS lambda configuration to an reasonable amount.
+  - Finally, if it's still taking too long, you can increase the speed of imports by increasing the CPU provisioned. This can also be changed in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
