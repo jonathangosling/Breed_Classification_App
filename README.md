@@ -27,4 +27,4 @@ The repo contains:
 - The default memory and timeout configurations on AWS lambda can cause issues when importing large packages like tensorflow. This can be solved by:
   - First: make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
   - Second: increase the timeout in the AWS lambda configuration to an reasonable amount.
-  - Finally: if it's still taking too long, you can increase the speed of imports by increasing the CPU provisioned. This can be altered in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
+  - Finally: if it's taking longer than you would like, you can increase the speed of imports by increasing the CPU provisioned. This can be altered in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
