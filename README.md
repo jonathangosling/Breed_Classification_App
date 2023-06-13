@@ -19,12 +19,12 @@ The repo contains:
   - Another solution could be to change the current working directory from the python script using `os.chdir()`
   - I also found [this blog post](https://xebia.com/blog/python-and-relative-imports-in-aws-lambda-functions/) discussing using relative imports for python in AWS Lambda functions, where they take yet a different approach.
   - I haven't properly tested this yet, but checking [the AWS developer guide post](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html). I can see a potential solution which may be better:
-    1. The AWS base images (i.e. `public.ecr.aws/lambda/python:3.8` in this case) actually provides environment variables `LAMBDA_TASK_ROOT` and `LAMBDA_RUNTIME_DIR` which are assigned values pointing to task and runtime directories. The AWS documentation actually suggests install dependencies to the directory found using the variable `LAMBDA_TASK_ROOT` "alongside the function handler to ensure that the Lambda runtime can locate them when the function is invoked."
-    2. The in the dockerfile:
+    - The AWS base images (i.e. `public.ecr.aws/lambda/python:3.8` in this case) actually provides environment variables `LAMBDA_TASK_ROOT` and `LAMBDA_RUNTIME_DIR` which are assigned values pointing to task and runtime directories. The AWS documentation actually suggests installing dependencies to the directory found using the variable `LAMBDA_TASK_ROOT` "alongside the function handler to ensure that the Lambda runtime can locate them when the function is invoked."
+    - In the dockerfile:
        1. `RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"`
        2. `COPY app.py ${LAMBDA_TASK_ROOT}`
        3. Also copy all other (custom) dependencies to ${LAMBDA_TASK_ROOT}
 - The default memory and timeout configurations on AWS lambda can cause issues when importing large packages like tensorflow. This can be solved by:
-  - First make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
-  - Second increase the timeout in the AWS lambda configuration to an reasonable amount.
-  - Finally, if it's still taking too long, you can increase the speed of imports by increasing the CPU provisioned. This can also be changed in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
+  - First: make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
+  - Second: increase the timeout in the AWS lambda configuration to an reasonable amount.
+  - Finally: if it's still taking too long, you can increase the speed of imports by increasing the CPU provisioned. This can be altered in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
