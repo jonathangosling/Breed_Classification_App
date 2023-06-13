@@ -9,4 +9,18 @@ The repo contains:
   - basic_form.html: This is the html file which includes a `<form>` element. This allows us to receive an image from the user. When the user submits an image. It is registered as a post request in the app in main.py, activating the `get_basic_form_resp()` function, which uses the model to make a prediction and returns the same html response but with a different 'output message' which is passed a vairable in the `.TemplateResponse` method.
 - The trained model in the form of a h5 file.
 - unique_labels.csv: csv file containing all of the unique 'labels' i.e. breeds in our model
-- Dockerfile, requirments.txt deployment. (Dockerfile used to build docker image, importing dependencies using requirements.txt)
+- Dockerfile, requirments.txt, buildspec.yaml for deployment.
+  
+## Notes:
+- Things can get a little tricky when importing custom packages in AWS lambda. It appears that the current working directory when the lambda function executes the application file (`main.py`) is not necessarily the same directory as the application file itself, meaning it is unable to find the custom packages.
+  - I think there could be a number of solutions to this. Here's what I did:
+    1. Create a new directory (`workspace`) in the dockerfile and COPY all files into this directory.
+    2. In the application file (`main.py`) append the directory (`sys.path.append('/workspace')`). Note: we added all of our files to this new directory so that we can just append that, rather than appending the route (`/`) which contains everything, limiting the amount that the interpreter has to search.
+  - Another solution could be to change the current working directory from the python script using `os.chdir()`
+  - I also found [this blog post](https://xebia.com/blog/python-and-relative-imports-in-aws-lambda-functions/) discussing using relative imports for python in AWS Lambda functions, where they take yet a different approach.
+  - I haven't properly tested this yet, but checking [the AWS developer guide post](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html). I can see a potential solution which may be better:
+    1. The AWS base images (i.e. `public.ecr.aws/lambda/python:3.8` in this case) actually provides environment variables `LAMBDA_TASK_ROOT` and `LAMBDA_RUNTIME_DIR` which are assigned values pointing to task and runtime directories. The AWS documentation actually suggests install dependencies to the directory found using the variable `LAMBDA_TASK_ROOT` "alongside the function handler to ensure that the Lambda runtime can locate them when the function is invoked."
+    2. The in the dockerfile:
+       1. `RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"`
+       2. `COPY app.py ${LAMBDA_TASK_ROOT}`
+       3. Also copy all other (custom) dependencies to ${LAMBDA_TASK_ROOT}
