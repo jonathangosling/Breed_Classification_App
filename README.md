@@ -30,5 +30,6 @@ The default memory and timeout configurations on AWS lambda can cause issues whe
 - First: make sure that you are only importing the necessary functionality (`from tensorflow. ... import ...`).
 - Second: increase the timeout in the AWS lambda configuration to an reasonable amount.
 - Finally: if it's taking longer than you would like, you can increase the speed of imports by increasing the CPU provisioned. This can be altered in the lambda configuration by increasing the memory allocated ("Your function is allocated CPU proportional to the memory configured").
+
 Of course, as we're using serverless lambda, the time is increased for any 'cold starts'. See more [here](https://lumigo.io/blog/3-major-ways-to-improve-aws-lambda-performance/).
   
