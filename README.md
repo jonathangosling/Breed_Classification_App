@@ -10,7 +10,11 @@ The repo contains:
 - The trained model in the form of a h5 file.
 - unique_labels.csv: csv file containing all of the unique 'labels' i.e. breeds in our model
 - Dockerfile, requirments.txt, buildspec.yaml for deployment.
-  
+
+## Resources:
+This was a useful video for understanding how to use Jinja2 with FastAPI and HTML forms:
+https://www.youtube.com/watch?v=L4WBFRQB7Lk&t=2s
+
 ## Notes:
 ### Custom packages and relative paths
 Things can get a little tricky when importing custom packages in AWS lambda. It appears that the current working directory when the lambda function executes the application file (`main.py`) is not necessarily the same directory as the application file itself, meaning it is unable to find the custom packages.
