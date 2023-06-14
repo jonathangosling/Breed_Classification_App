@@ -12,7 +12,7 @@ The repo contains:
 - Dockerfile, requirments.txt, buildspec.yaml for deployment.
 
 ## Resources:
-This was a useful video for understanding how to use Jinja2 with FastAPI and HTML forms:
+This video was useful for understanding how to use HTML forms to get user data with Jinja2 and FastAPI:
 https://www.youtube.com/watch?v=L4WBFRQB7Lk&t=2s
 
 ## Notes:
