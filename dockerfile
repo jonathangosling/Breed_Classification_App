@@ -1,7 +1,5 @@
 FROM public.ecr.aws/lambda/python:3.8
 
-CMD mkdir -p /workspace
-
 COPY ./main.py /workspace/main.py
 COPY ./requirements.txt /workspace/requirements.txt
 COPY ./templates /workspace/templates
